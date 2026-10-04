@@ -35,13 +35,21 @@ struct dt_ref {
  */
 dt_ref *dt_ref_new(dt_value v)
 {
-    /* TODO: Allocate the handle and cell. Copy v into the cell.
-       Set the initial release state to false.
-       dt_ref_new(dt_value_int(42))  -> a reference that prints as ref(42)
-       an allocation failure          -> NULL
-       cases/ownership/ref_released.case */
-    (void)v;
-    return NULL;
+    dt_ref *p = malloc(sizeof(dt_ref));
+    if(p == NULL){
+        return NULL;
+    }
+
+    p->cell = malloc(sizeof(dt_value));
+    if(p->cell == NULL){
+        free(p);
+        return NULL;
+    }
+
+    *p->cell = v;
+    p->released = false;
+
+    return p;
 }
 
 /*
