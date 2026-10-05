@@ -27,7 +27,10 @@ struct dt_tuple {
 dt_tuple *dt_tuple_new(const dt_value *values, size_t count)
 {
     if(count > DT_TUPLE_MAX_ARITY){
-        reutrn NULL;
+        return NULL;
+    }
+    if(count > 0 && values == NULL){
+        return NULL;
     }
 
     dt_tuple *t = malloc(sizeof(dt_tuple));
