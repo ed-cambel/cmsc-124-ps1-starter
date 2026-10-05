@@ -59,17 +59,14 @@ dt_ref *dt_ref_new(dt_value v)
  */
 dt_status dt_ref_borrow(const dt_ref *p, dt_value *out)
 {
-    /* TODO: Return DT_ERR_RELEASED after release.
-       Otherwise, copy the cell value to *out.
-       Check the flag before you access the cell pointer.
-       a live reference to 42:  dt_ref_borrow(p, &out) -> DT_OK, *out is 42
-       after dt_ref_release(p): dt_ref_borrow(p, &out) -> DT_ERR_RELEASED,
-                                                          *out untouched
-       cases/ownership/ref_released.case,
-       cases/post-release/borrow_after_release.case */
-    (void)p;
-    (void)out;
-    return DT_ERR_RELEASED;
+    if(p==NULL || p->released){
+        return DT_ERR_RELEASED;
+    }
+
+    if(out != NULL){
+        *out = *p->cell;
+    }
+    return DT_OK;
 }
 
 /*
@@ -78,17 +75,15 @@ dt_status dt_ref_borrow(const dt_ref *p, dt_value *out)
  */
 dt_status dt_ref_release(dt_ref *p)
 {
-    /* TODO: Return DT_ERR_RELEASED after an earlier release.
-       Otherwise, release the cell. Set the pointer to NULL. Set the release flag.
-       The NULL assignment removes the stale cell address.
-       The release flag must prevent each later access.
-       first call on a live reference   -> DT_OK and releases the cell
-       second call on the same one      -> DT_ERR_RELEASED and releases nothing
-       a reference holding a string     -> releases the cell and preserves the string
-       cases/ownership/ref_double_release.case,
-       cases/ownership/ref_aliases_string.case */
-    (void)p;
-    return DT_ERR_RELEASED;
+    if(p == NULL || p->released){
+        return DT_ERR_RELEASED;
+    }
+
+    free(p->cell);
+    p->cell = NULL;
+    p->released = true;
+
+    return DT_OK;
 }
 
 /*
