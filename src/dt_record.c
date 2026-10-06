@@ -47,6 +47,12 @@ dt_record *dt_record_new(const char **field_names, size_t field_count)
         return NULL;
     }
 
+    
+    for (size_t i = 0; i < DT_RECORD_MAX_FIELDS; i++) {
+        r->names[i] = NULL;
+        r->values[i] = dt_value_nil();
+    }
+
     for (size_t i = 0; i < field_count; i++) {
         r->names[i] = strdup(field_names[i]);
         if (r->names[i] == NULL) {
