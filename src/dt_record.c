@@ -54,9 +54,7 @@ dt_record *dt_record_new(const char **field_names, size_t field_count)
     }
 
     for (size_t i = 0; i < field_count; i++) {
-        size_t len = strlen(field_names[i]);
-
-        r->names[i] = malloc(len + 1);
+        r->names[i] = strdup(field_names[i]);
         if (r->names[i] == NULL) {
             for (size_t j = 0; j < i; j++) {
                 free(r->names[j]);
@@ -64,7 +62,6 @@ dt_record *dt_record_new(const char **field_names, size_t field_count)
             free(r);
             return NULL;
         }
-        memcpy(r->names[i], field_names[i], len);
         r->values[i] = dt_value_nil();
     }
 
