@@ -98,8 +98,8 @@ bool dt_ref_is_released(const dt_ref *p)
        a live reference        -> false, so the driver reports DT_ERR_LEAK
        after dt_ref_release(p) -> true, so the driver reports no leak
        cases/ownership/ref_never_released.case, cases/ownership/ref_released.case */
-    (void)p;
-    return true;
+
+    return p->released;
 }
 
 /*
@@ -114,5 +114,7 @@ void dt_ref_destroy(dt_ref *p)
        a released reference  -> only the handle is left to free
        a live reference      -> the cell and the handle both go, quietly
        dt_ref_destroy(NULL)  -> returns, having done nothing */
-    (void)p;
+    
+    free(p->cell);
+    free(p);
 }
