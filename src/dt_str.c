@@ -188,7 +188,7 @@ dt_status dt_str_substr(const dt_str *s, size_t start, size_t length, dt_str **o
         return DT_ERR_RANGE;
     }
 
-    if (start >= s->length) {
+    if (start > s->length) {
         return DT_ERR_RANGE;
     }
 
