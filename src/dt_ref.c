@@ -115,10 +115,6 @@ void dt_ref_destroy(dt_ref *p)
        a live reference      -> the cell and the handle both go, quietly
        dt_ref_destroy(NULL)  -> returns, having done nothing */
     
-    if (p == NULL) {
-        return;
-    }
-
     free(p->cell);
     free(p);
 }
