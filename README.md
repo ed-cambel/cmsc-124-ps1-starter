@@ -11,7 +11,7 @@ toolchains, and local verification details for the work that the manual defines.
 Replace the two entries below. An assigned trio adds one entry.
 
 - Angelique Margaret M. Ardeña (`@elirvrrii`)
-- Full Name (`@github-username`)
+- Edriellen Mey G. Cambel (`@ed-cambel`)
 
 ## Files You May Change
 
