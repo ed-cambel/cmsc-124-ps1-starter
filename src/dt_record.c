@@ -47,7 +47,7 @@ dt_record *dt_record_new(const char **field_names, size_t field_count)
         return NULL;
     }
 
-    
+
     for (size_t i = 0; i < DT_RECORD_MAX_FIELDS; i++) {
         r->names[i] = NULL;
         r->values[i] = dt_value_nil();
@@ -141,7 +141,7 @@ dt_status dt_record_get(const dt_record *r, const char *field, dt_value *out)
     }
 
     for (size_t i = 0; i < r->count; i++) {
-        if (strcmp(r->names[i], field) == 0) {
+        if (r->names[i] != NULL && strcmp(r->names[i], field) == 0) {
             *out = r->values[i];
             return DT_OK;
         }
@@ -168,7 +168,7 @@ dt_status dt_record_set(dt_record *r, const char *field, dt_value v)
     }
 
     for (size_t i = 0; i < r->count; i++) {
-        if (strcmp(r->names[i], field) == 0) {
+        if (r->names[i] != NULL &&strcmp(r->names[i], field) == 0) {
             r->values[i] = v;
             return DT_OK;
         }
